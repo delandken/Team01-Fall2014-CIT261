@@ -4,5 +4,10 @@ angular.module('MatchingGame', ['ngRoute']).config(function($routeProvider){
 		controller: 'MainCtrl'
 	});
 
+	$routeProvider.when('/highscore', {
+		templateUrl: 'views/highscore.html',
+		controller: 'HighScoreCtrl'
+	});
+
 	$routeProvider.otherwise('/main');
 });
