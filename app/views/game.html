@@ -1,0 +1,36 @@
+<h1>This is the Game Screen</h1>
+<style>
+	.card {
+		height: 60px;
+		width: 60px;
+		display: inline-block;
+		margin: 0 1em;
+		background-color: lime;
+
+		-webkit-transform: rotate3d(0,1,0,180deg);
+		-webkit-transition: all 0.5s ease-out;
+	}
+
+	.card.active {
+		-webkit-transform: rotate3d(0,0,0,0);
+	}
+
+	.card.match {
+		opacity: 0;
+	}
+
+	.final-time {
+		background-color: yellow;
+	}
+</style>
+<div class="timer" ng-class="{'final-time': allMatched()}">
+	{{currentTimer}}
+</div>
+<div class="message" ng-if="allMatched()">
+	<h1>You Won!</h1>
+</div>
+<div class="games" ng-if="!allMatched()">
+	<div ng-repeat="card in cards" ng-click="clickCard(card)" class="card" ng-class="{'active': card.active, 'match': card.match}">
+		{{card.shape}}
+	</div>
+</div>
