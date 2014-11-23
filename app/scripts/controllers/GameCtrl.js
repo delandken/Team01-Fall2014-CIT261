@@ -1,39 +1,49 @@
 angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout, $interval) {
 	var activeCard;
 
-	$scope.cards = [
+	var cards = [
 		{
 			shape: 'square',
-			color: 'red',
+			color: 'purple',
 			active: false},
 		{
 			shape: 'triangle',
-			color: 'red',
+			color: 'blue',
 			active: false
 		},
 		{
 			shape: 'circle',
-			color: 'blue',
+			color: 'red',
 			active: false
 		},
 		{
 			shape: 'square',
-			color: 'red',
+			color: 'purple',
 			active: false
 		},
 		{
 			shape: 'circle',
-			color: 'blue',
+			color: 'red',
 			active: false
 		},
 		{
 			shape: 'triangle',
-			color: 'red',
+			color: 'blue',
 			active: false
 		}
 	];
 
+	function shuffle(o){ //v1.0
+	    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	    return o;
+	};
+
+	$scope.cards = shuffle(cards);
+
 	$scope.currentTimer = 0;
+	$scope.currentMatches = 0;
+	$scope.guesses = 0;
+	$scope.memoryRatio = 0;
 
 	var timerTimeout = $interval(function() {
 		$scope.currentTimer += 1;
@@ -53,14 +63,21 @@ angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout,
 				if (activeCard.shape === card.shape) {
 					activeCard.match = true;
 					card.match = true;
+
+					$scope.currentMatches++;
 				} else {
 					activeCard.active = false;
 					card.active = false;
 				}
 
 				activeCard = null;
+				$scope.guesses++;
 			} else {
 				activeCard = card;
+			}
+
+			if ($scope.currentMatches > 0) {
+				$scope.memoryRatio =Math.floor(($scope.currentMatches / $scope.guesses) * 100);
 			}
 		}, 510);
 	}

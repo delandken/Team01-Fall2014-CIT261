@@ -1,36 +1,96 @@
 <h1>This is the Game Screen</h1>
 <style>
-	.card {
-		height: 60px;
-		width: 60px;
+	.card-wrapper {
 		display: inline-block;
 		margin: 0 1em;
-		background-color: lime;
 
-		-webkit-transform: rotate3d(0,1,0,180deg);
+		perspective: 1000;
+		-webkit-perspective: 1000;
 		-webkit-transition: all 0.5s ease-out;
 	}
 
-	.card.active {
+
+	.card-wrapper.active .card {
+		-webkit-transform: rotate3d(0,1,0,180deg);
+	}
+
+	.card-wrapper .card {
 		-webkit-transform: rotate3d(0,0,0,0);
 	}
 
-	.card.match {
+	.card-wrapper, .card, .front, .back {
+		height: 60px;
+		width: 60px;
+	}
+
+	.card {
+		position: relative;	
+		-webkit-transition: all 0.5s ease-out;
+		-webkit-transform-style: preserve-3d;
+		border: solid black thin;
+	}
+
+	.front, .back {
+		background-size: cover;
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.front {
+		z-index: 2;
+		-webkit-transform: rotateY(180deg);
+	}
+
+	.back {
+		z-index: 1;
+		-webkit-transform: rotateY(0deg);
+		background-color: red;
+	}
+
+	.card-wrapper.match {
 		opacity: 0;
 	}
 
 	.final-time {
 		background-color: yellow;
 	}
+
+	.blue-triangle .front{
+		background-image: url('/images/blue-triangle.png');
+	}
+
+	.red-circle .front {
+		background-image: url('/images/red-circle.png');
+	}
+
+	.purple-square .front {
+		background-image: url('/images/purple-square.png');
+	}
 </style>
 <div class="timer" ng-class="{'final-time': allMatched()}">
+
 	{{currentTimer}}
+</div>
+<div class="counter">
+	{{currentMatches}}
+</div>
+<div class="guesses">
+	{{guesses}}
+</div>
+<div class="guess-ratios">
+	{{memoryRatio}}%
 </div>
 <div class="message" ng-if="allMatched()">
 	<h1>You Won!</h1>
 </div>
 <div class="games" ng-if="!allMatched()">
-	<div ng-repeat="card in cards" ng-click="clickCard(card)" class="card" ng-class="{'active': card.active, 'match': card.match}">
-		{{card.shape}}
+	<div ng-repeat="card in cards" ng-click="clickCard(card)" class="card-wrapper" ng-class="{'active': card.active, 'match': card.match}">
+		<div class="card {{card.color}}-{{card.shape}}">
+			<div class="front"></div>
+			<div class="back"></div>
+		</div>
 	</div>
 </div>
