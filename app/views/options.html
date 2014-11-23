@@ -1,3 +1,27 @@
 <h1>This is the Options View</h1>
 
 <button ng-click="clickMe()">Click Me</button>
+
+angular.module('MatchingGame').
+controller('optionsController', function($scope) {
+    $scope.optionsList = [
+      {
+          Sound Effects: {
+              trigger1: 'On',
+              trigger0: 'Off'
+          }
+          Music: {
+              trigger1: 'On',
+              trigger0: 'Off'
+          }
+          Bright: {
+              slide: ' '
+          }
+          //Radio Boxes
+          Difficulty: {
+              hard: ' ',
+              medium: ' ',
+              easy: ' '
+          }
+    ];
+});
