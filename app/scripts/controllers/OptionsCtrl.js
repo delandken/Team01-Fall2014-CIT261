@@ -38,5 +38,4 @@ angular.module('MatchingGame').controller('OptionsCtrl', function($scope) {
 		alert('Enhanced Cards Selected');
 	};
 	
-	
 });
