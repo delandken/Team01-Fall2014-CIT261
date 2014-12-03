@@ -1,6 +1,53 @@
-<button ng-click="clickMe()">Click Me</button>
+<style>
+	p {
+	margin:2px;
+	}
+	.text_clear {
+	clear:both;
+	}
+	button {
+	float:right;
+	margin:2px;
+	}
+	
+</style>
 
+<a href="#/main">Main Menu</a>
+<p>Matching Game</p>
+<h1>Options</h1>
 
+<p>Sound</p>
+<button ng-click="soundOff()">Off</button>
+<button ng-click="soundOn()">On</button>
+
+<hr class="text_clear">
+
+<p>Volume</p>
+	<div>
+    <input ng-model="value()"  type="text" id="mySlider1" slider options="options" />
+  	</div> 
+
+<hr class="text_clear">
+
+<p>Mode</p>
+<button ng-click="modeHard()">Hard</button>
+<button ng-click="modeEasy()">Easy</button>
+
+<hr class="text_clear">
+
+<p>Size</p>
+<button ng-click="sizeLarge()">10x10</button>
+<button ng-click="sizeMedium()">6x6</button>
+<button ng-click="sizeSmall()">4x4</button>
+
+<hr class="text_clear">
+
+<p>Cards</p>
+<button ng-click="cardEnhanced()">Enhanced</button>
+<button ng-click="cardSimple()">Simple</button>
+<button ng-click="cardColor()">Colors</button>
+
+<hr class="text_clear">
 
 <body ng-app="MatchingGame" ng-controller="optionsController">
   <table>
@@ -19,32 +66,3 @@
     </tbody>
   </table>
 </body>
-
-
-
-
-
-
-angular.module('MatchingGame').
-controller('optionsController', function($scope) {
-    $scope.optionsList = [
-      {
-          Sound Effects: {
-              trigger1: 'On',
-              trigger0: 'Off'
-          }
-          Music: {
-              trigger1: 'On',
-              trigger0: 'Off'
-          }
-          Bright: {
-              slide: ' '
-          }
-          //Radio Boxes
-          Difficulty: {
-              hard: ' ',
-              medium: ' ',
-              easy: ' '
-          }
-    ];
-});
