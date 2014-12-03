@@ -8,36 +8,17 @@ angular.module('MatchingGame').controller('OptionsCtrl', function($scope) {
 		alert('Turn sound off?');
 	};
 	
-	// Mode selection functions
-	$scope.modeEasy = function() {
-		alert('Easy Mode');
-	};
-	$scope.modeHard = function() {
-		alert('Hard Mode');
-	};
-	
 	// Game table size selection
 	$scope.sizeSmall = function() {
-		alert('4x4 Size Selected');
+		alert('3x3 Size Selected');
 	};
 	$scope.sizeMedium = function() {
-		alert('6x6 Size Selected');
+		alert('4x4 Size Selected');
 	};
 	$scope.sizeLarge = function() {
-		alert('10x10 Size Selected');
+		alert('5x5 Size Selected');
 	};
-	
-	// Card function selection
-	$scope.cardColor = function() {
-		alert('Color Cards Selected');
-	};
-	$scope.cardSimple = function() {
-		alert('Simple Cards Selected');
-	};
-	$scope.cardEnhanced = function() {
-		alert('Enhanced Cards Selected');
-	};
-	
+
 	// options list...
 	$scope.optionsList = [
       {

@@ -8,8 +8,7 @@
 	button {
 	float:right;
 	margin:2px;
-	}
-	
+	}	
 </style>
 
 <a href="#/main">Main Menu</a>
@@ -24,32 +23,20 @@
 
 <p>Volume</p>
 	<div>
-    <input ng-model="value()"  type="text" id="mySlider1" slider options="options" />
+    <input ng-model="value"  type="text" id="mySlider1" slider options="options" />
   	</div> 
 
 <hr class="text_clear">
 
-<p>Mode</p>
-<button ng-click="modeHard()">Hard</button>
-<button ng-click="modeEasy()">Easy</button>
+<p>Difficulty</p>
+<button ng-click="sizeLarge()">5x5</button>
+<button ng-click="sizeMedium()">4x4</button>
+<button ng-click="sizeSmall()">3x3</button>
 
 <hr class="text_clear">
 
-<p>Size</p>
-<button ng-click="sizeLarge()">10x10</button>
-<button ng-click="sizeMedium()">6x6</button>
-<button ng-click="sizeSmall()">4x4</button>
 
-<hr class="text_clear">
-
-<p>Cards</p>
-<button ng-click="cardEnhanced()">Enhanced</button>
-<button ng-click="cardSimple()">Simple</button>
-<button ng-click="cardColor()">Colors</button>
-
-<hr class="text_clear">
-
-<body ng-app="MatchingGame" ng-controller="optionsController">
+<!-- <body ng-app="MatchingGame" ng-controller="optionsController">
   <table>
     <thead>
       <tr><th colspan="4">Matching Game Options</th></tr>
@@ -65,4 +52,4 @@
       </tr>
     </tbody>
   </table>
-</body>
+</body>--!>
