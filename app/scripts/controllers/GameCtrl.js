@@ -1,53 +1,42 @@
-angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout, $interval) {
-	var activeCard;
+angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout, $interval, $window, CardEngine, HighScoreService) {
+	var activeCard,
+	matchingMode;
 
-	var cards = [
-		{
-			shape: 'square',
-			color: 'purple',
-			active: false},
-		{
-			shape: 'triangle',
-			color: 'blue',
-			active: false
-		},
-		{
-			shape: 'circle',
-			color: 'red',
-			active: false
-		},
-		{
-			shape: 'square',
-			color: 'purple',
-			active: false
-		},
-		{
-			shape: 'circle',
-			color: 'red',
-			active: false
-		},
-		{
-			shape: 'triangle',
-			color: 'blue',
-			active: false
-		}
-	];
+	$scope.game = {};
 
-	function shuffle(o){ //v1.0
-	    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-	    return o;
-	};
+	initGame();
 
-	$scope.cards = shuffle(cards);
 
-	$scope.currentTimer = 0;
-	$scope.currentMatches = 0;
-	$scope.guesses = 0;
-	$scope.memoryRatio = 0;
+	function gameOver() {
+		//Add the high score to the list:
+		HighScoreService.add($scope.game.currentMatches).then(function(){
+			HighScoreService.getAllSortedByHighScore(5).then(function(highScores){
+				$scope.highScores = highScores;
+			});
+		});
+	}
 
-	var timerTimeout = $interval(function() {
-		$scope.currentTimer += 1;
-	}, 1000);
+	function initGame() {
+		$scope.game = {
+			currentTimer: 0,
+			currentMatches: 0,
+			guesses: 0,
+			level: 0,
+			gameOver: false,
+			totalTime: 30
+		};
+
+		activeCard = null;
+		var timerInterval = $interval(function() {
+			$scope.game.gameOver = !--$scope.game.totalTime;
+			if ($scope.game.gameOver) {
+				gameOver();
+				$interval.cancel(timerInterval);
+			}
+		}, 1000);
+
+		initLevel();
+	}
 
 	$scope.clickCard = function(card) {
 		if (card.active) {
@@ -60,37 +49,52 @@ angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout,
 
 		$timeout(function() {
 			if (activeCard) {
-				if (activeCard.shape === card.shape) {
+				if (activeCard[$scope.game.matchMode] === card[$scope.game.matchMode]) {
 					activeCard.match = true;
 					card.match = true;
 
-					$scope.currentMatches++;
+					$scope.game.currentMatches++;
+					allMatched();
 				} else {
 					activeCard.active = false;
 					card.active = false;
 				}
 
 				activeCard = null;
-				$scope.guesses++;
+				$scope.game.guesses++;
 			} else {
 				activeCard = card;
 			}
-
-			if ($scope.currentMatches > 0) {
-				$scope.memoryRatio =Math.floor(($scope.currentMatches / $scope.guesses) * 100);
-			}
 		}, 510);
+	};
+
+	$scope.restartGame = function() {
+		initGame();
+	};
+
+	$scope.goBack = function() {
+		$window.history.back();
 	}
 
-	$scope.allMatched = function() {
+	function initLevel() {
+		$scope.game.matchMode = Math.random() < 0.5 ? 'shape' : 'color';
+		$scope.game.level++;
+		$scope.game.cards = CardEngine.generateDeck(10, $scope.game.matchMode);
+	}
+
+	function allMatched() {
 		var allMatched = true;
-		for (var i = 0, card; card = $scope.cards[i]; i++) {
+		for (var i = 0, card; card = $scope.game.cards[i]; i++) {
 			allMatched = allMatched && card.match;
 		}
 
-		if (allMatched) {
-			$interval.cancel(timerTimeout);
+		if (allMatched && !$scope.gameOver) {
+			initLevel();
 		}
-		return allMatched;
+		return allMatched;	
 	}
+
+	
+
+	
 });
