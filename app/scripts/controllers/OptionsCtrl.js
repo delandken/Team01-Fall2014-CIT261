@@ -18,26 +18,4 @@ angular.module('MatchingGame').controller('OptionsCtrl', function($scope) {
 	$scope.sizeLarge = function() {
 		alert('5x5 Size Selected');
 	};
-
-	// options list...
-	$scope.optionsList = [
-      {
-          Sound Effects: {
-              trigger1: 'On',
-              trigger0: 'Off'
-          }
-          Music: {
-              trigger1: 'On',
-              trigger0: 'Off'
-          }
-          Bright: {
-              slide: ' '
-          }
-          //Radio Boxes
-          Difficulty: {
-              hard: ' ',
-              medium: ' ',
-              easy: ' '
-          }
-    ];
 });

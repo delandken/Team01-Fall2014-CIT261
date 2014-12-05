@@ -93,8 +93,4 @@ angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout,
 		}
 		return allMatched;	
 	}
-
-	
-
-	
 });
