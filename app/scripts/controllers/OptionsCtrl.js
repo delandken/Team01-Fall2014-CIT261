@@ -1,5 +1,7 @@
 angular.module('MatchingGame').controller('OptionsCtrl', function($scope) {
 	
+	$scope.value = 0;
+	
 	// Sound toggle
 	$scope.soundOn = function() {
 		alert('Turn sound on?');
