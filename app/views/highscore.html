@@ -1,8 +1,8 @@
 <a href="#/main">Main Menu</a>
 <h1>High Scores</h1>
 
-	<div ng-if="highscore.gameOver" class="high-scores">
-					<ul>
-						<li ng-repeat="score in highScores">{{score.time|timeFormat}}: {{score.value}}</li>
-					</ul>
+	<div ng-if="highScores.allScores" class="high-scores">
+			<ul>
+				<li ng-repeat="score in highScores">{{score.time|timeFormat}}: {{score.value}}</li>
+			</ul>
 	</div>
