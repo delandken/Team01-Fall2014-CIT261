@@ -1,27 +1,34 @@
 h1{
-	color: #4d4d4d;
+	color: #ffffff;
+	font: bold 50px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
+
+p{
+	color: #ffffff;
+	font: bold 20px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
 body{
-	background-color: #ccc;
+	background-color: #4c9aa3;
 }
 
 .menu-button {
      
     /*basic button Styles*/
     display: block;
-    height: 100px;
+    height: 55px;
     /*width: 300px;*/
     margin-right: auto;
     margin-left: auto;
     background: #34696f;
     border: 2px solid rgba(33, 68, 72, 0.59);
     margin: 25px;
+    
      
     /*button text Styles*/
     color: rgba(0, 0, 0, 0.55);
     text-align: center;
-    font: bold 3.2em/100px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+    font: bold 40px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
      
     /*CSS3 Styles*/
     background: -webkit-linear-gradient(top, #34696f, #2f5f63);
@@ -41,12 +48,10 @@ body{
      
 }
  
-/*Step 3: Link Styles*/
 a.menu-button {
     text-decoration: none;
 }
  
-/*Step 5: Hover Styles*/
 a.menu-button:hover {
     background: #3d7a80;
     background: -webkit-linear-gradient(top, #3d7a80, #2f5f63);
@@ -54,4 +59,76 @@ a.menu-button:hover {
     background: -o-linear-gradient(top, #3d7a80, #2f5f63);
     background: -ms-linear-gradient(top, #3d7a80, #2f5f63);
     background: linear-gradient(top, #3d7a80, #2f5f63);
+}
+
+.main-menu-button{
+	display: inline;
+    padding: 5px;
+    background: #34696f;
+    border: 2px solid rgba(33, 68, 72, 0.59);
+    
+	color: #fff;
+    text-align: center;
+    font: bold 15px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+    
+    background: -webkit-linear-gradient(top, #34696f, #2f5f63);
+    background: -moz-linear-gradient(top, #34696f, #2f5f63);
+    background: -o-linear-gradient(top, #34696f, #2f5f63);
+    background: -ms-linear-gradient(top, #34696f, #2f5f63);
+    background: linear-gradient(top, #34696f, #2f5f63);
+     
+    -webkit-border-radius: 8px;
+    -khtml-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px; 
+}
+
+a.main-menu-button{
+	text-decoration: none;
+}
+
+a.main-menu-button:hover {
+    background: #3d7a80;
+    background: -webkit-linear-gradient(top, #3d7a80, #2f5f63);
+    background: -moz-linear-gradient(top, #3d7a80, #2f5f63);
+    background: -o-linear-gradient(top, #3d7a80, #2f5f63);
+    background: -ms-linear-gradient(top, #3d7a80, #2f5f63);
+    background: linear-gradient(top, #3d7a80, #2f5f63);
+}
+
+.list-high-scores {
+	/*height: 150px;
+	width: 400px;*/
+	/*background: #34696f;
+	border: 1px solid #ffffff;*/
+	width: 280px;
+    border-style: solid;
+    border-width: 1px;
+    background: #34696f;
+    border-color:#999;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.list-high-scores ul {
+	list-style-type: none;
+ 	list-style-position: outside;
+ 	list-style-image: none;
+ 	padding:20px;
+ 	margin:0;
+}
+
+.list-high-scores li {
+	color: #fff;
+	font: bold 20px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
+
+hr{
+	color:#fff;
 }

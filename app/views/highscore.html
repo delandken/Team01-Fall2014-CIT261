@@ -1,8 +1,8 @@
-<a href="#/main">Main Menu</a>
-<h1>High Scores</h1>
+<a href="#/main" class="main-menu-button">Main Menu</a>
+<h1>Top 5 High Scores</h1>
 
-	<div class="high-scores">
+	<div class="list-high-scores">
 			<ul>
-				<li ng-repeat="score in highScores">{{score.time|timeFormat}}: {{score.value}}</li>
+				<li ng-repeat="score in highScores">{{score.value}} ({{score.time|timeFormat}})</li>
 			</ul>
 	</div>

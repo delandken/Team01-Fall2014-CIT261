@@ -162,8 +162,8 @@
 						<li ng-repeat="score in highScores">{{score.time|timeFormat}}: {{score.value}}</li>
 					</ul>
 				</div>
-				<button type="button" ng-click="restartGame()">Try Again?</button>
-				<button type="button" ng-click="goBack()">Quit</button>
+				<button type="button" ng-click="restartGame()" class="main-menu-button">Try Again?</button>
+				<button type="button" ng-click="goBack()" class="main-menu-button">Quit</button>
 			</div>
 		</div>
 		<h1>Match {{game.matchMode}}</h1>
