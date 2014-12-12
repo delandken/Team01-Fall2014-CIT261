@@ -2,8 +2,9 @@
   "name": "cit260sec05",
   "private": true,
   "dependencies": {
-    "angular": "~1.3.0",
-    "angular-route": "~1.3.0"
+    "angular": "~1.3.6",
+    "angular-route": "~1.3.6",
+    "angular-resource": "~1.3.6"
   },
   "devDependencies": {}
 }

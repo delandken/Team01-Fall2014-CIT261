@@ -20,4 +20,6 @@ angular.module('MatchingGame').controller('OptionsCtrl', function($scope) {
 	$scope.sizeLarge = function() {
 		alert('5x5 Size Selected');
 	};
+
+	$scope.value = 0;
 });
