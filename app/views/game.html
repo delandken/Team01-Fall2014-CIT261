@@ -140,7 +140,7 @@
 </style>
 <div class="gameView v-box">
 	<div class="position-wrapper flex-1 v-box">
-		<div class="game-over" ng-if="game.gameOver">
+		<div class="game-over" ng-class="{active: game.gameOver}">
 			<div class="modal-bg"></div>
 			<div class="modal">
 				<h1>Game Over!</h1>

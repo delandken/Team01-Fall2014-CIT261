@@ -1,4 +1,4 @@
-angular.module('MatchingGame', ['ngRoute', 'ngResource']).config(function($routeProvider, $httpProvider){
+angular.module('MatchingGame', ['ngRoute', 'ngResource', 'ngAnimate']).config(function($routeProvider, $httpProvider){
 	$routeProvider.when('/main', {
 		templateUrl: 'views/main.html',
 		controller: 'MainCtrl'
@@ -6,7 +6,7 @@ angular.module('MatchingGame', ['ngRoute', 'ngResource']).config(function($route
 
 	$routeProvider.when('/highscore', {
 		templateUrl: 'views/highscore.html',
-		controller: 'HighScoresCtrl'
+		controller: 'HighScoreCtrl'
 	});
 
 	$routeProvider.when('/options', {
@@ -21,8 +21,19 @@ angular.module('MatchingGame', ['ngRoute', 'ngResource']).config(function($route
 
 	$routeProvider.otherwise('/main');
 
-	console.log($httpProvider.defaults);
-	// $httpProvider.defaults.useXDomain = true;
 	$httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+}).run(function($rootScope, $location, $timeout) {
+	var curLocation;
+	$rootScope.$on('$locationChangeSuccess', function() {
+		curLocation = $location.path();
+	});
+
+	$rootScope.$watch(function(){return $location.path()}, function(newPath, oldPath) {
+		if(newPath === curLocation) {
+			$rootScope.animateClass='back-animate';
+		} else {
+			$rootScope.animateClass ='forward-animate';
+		}
+	});
 });

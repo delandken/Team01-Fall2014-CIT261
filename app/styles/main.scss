@@ -1,3 +1,9 @@
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
 h1{
 	color: #ffffff;
 	font: bold 50px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
@@ -9,7 +15,7 @@ p{
 	font: bold 20px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
-body{
+body, .mainView{
 	background-color: #4c9aa3;
 }
 
@@ -146,3 +152,82 @@ hr{
 	border: solid thin lightgray;
 	padding: 0.25em;
 	}
+
+.animationWrapper {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.mainView {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.mainView.animate-view.ng-enter, .mainView.animate-view.ng-leave {
+    -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+
+    display: block;
+    -webkit-transform: translate3d(0,0,0);
+}
+
+.forward-animate .mainView.ng-enter {
+    -webkit-transform: translate3d(100%, 0, 0);
+}
+
+.forward-animate .mainView.ng-enter.ng-enter-active {
+    -webkit-transform: translate3d(0,0,0);
+}
+
+.forward-animate .mainView.ng-leave {
+    -webkit-transform: translate3d(0,0,0);
+}
+
+.forward-animate .mainView.ng-leave.ng-leave-active {
+    -webkit-transform: translate3d(-100%,0,0);
+} 
+
+.back-animate .mainView.ng-enter {
+    -webkit-transform: translate3d(-100%, 0, 0);
+}
+
+.back-animate .mainView.ng-enter.ng-enter-active {
+    -webkit-transform: translate3d(0,0,0);
+}
+
+.back-animate .mainView.ng-leave {
+    -webkit-transform: translate3d(0,0,0);
+}
+
+.back-animate .mainView.ng-leave.ng-leave-active {
+    -webkit-transform: translate3d(100%,0,0);
+} 
+
+.modal h1, .modal p {
+    color: black;
+}
+
+.game-over .modal-bg {
+    -webkit-transition: all ease-in 0.2s;
+    opacity: 0;
+    height: 0;
+}
+
+.game-over.active .modal-bg {
+    opacity: 1;
+    height: auto;
+}
+
+.game-over .modal {
+    -webkit-transition: all ease-in 0.2s;
+    -webkit-transform: translate3d(-50%, -250%, 0)
+}
+
+.game-over.active .modal {
+    -webkit-transform: translate3d(-50%,-50%,0);
+}
