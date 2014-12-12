@@ -23,7 +23,7 @@ angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout,
 			guesses: 0,
 			level: 0,
 			gameOver: false,
-			totalTime: 10
+			totalTime: 30
 		};
 
 		activeCard = null;
