@@ -1,4 +1,4 @@
-angular.module('MatchingGame').controller('OptionsCtrl', function($scope) {
+angular.module('MatchingGame').controller('OptionsCtrl', function($scope, $rootScope) {
 	'use strict';
 	$scope.value = 0;
 	
@@ -20,6 +20,8 @@ angular.module('MatchingGame').controller('OptionsCtrl', function($scope) {
 	$scope.sizeLarge = function() {
 		window.alert('5x5 Size Selected');
 	};
+
+	$scope.goBack = $rootScope.goBack;
 
 	$scope.value = 0;
 });

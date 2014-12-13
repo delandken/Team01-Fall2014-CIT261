@@ -1,11 +1,11 @@
 /*jshint -W084 */
-angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout, $interval, $window, CardEngine, HighScoreService) {
+angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout, $interval, $rootScope, $window, CardEngine, HighScoreService) {
 	'use strict';
 
 	var activeCard;
 
 	$scope.game = {};
-
+	$scope.goBack = $rootScope.goBack;
 
 	function gameOver() {
 		//Add the high score to the list:
@@ -70,10 +70,6 @@ angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout,
 
 	$scope.restartGame = function() {
 		initGame();
-	};
-
-	$scope.goBack = function() {
-		$window.history.back();
 	};
 
 	function initLevel() {

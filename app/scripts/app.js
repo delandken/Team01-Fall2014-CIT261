@@ -27,12 +27,13 @@ angular.module('MatchingGame').config(function($routeProvider, $httpProvider){
 	$httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
-angular.module('MatchingGame').run(function($rootScope, $location) {
+angular.module('MatchingGame').run(function($rootScope, $location, $window) {
 	'use strict';
 	
 	var curLocation;
 	$rootScope.$on('$locationChangeSuccess', function() {
 		curLocation = $location.path();
+		$rootScope.animateClass = 'forward-animate';
 	});
 
 	$rootScope.$watch(function(){return $location.path();}, function(newPath) {
@@ -42,4 +43,9 @@ angular.module('MatchingGame').run(function($rootScope, $location) {
 			$rootScope.animateClass ='forward-animate';
 		}
 	});
+
+	$rootScope.goBack = function() {
+		$rootScope.animateClass='back-animate';
+		$window.history.back();
+	}
 });
