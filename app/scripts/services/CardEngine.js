@@ -1,5 +1,7 @@
+/*jshint -W084 */
 angular.module('MatchingGame').factory('CardEngine', function() {
-    options = {
+    'use strict';
+    var options = {
         shape: [
             'square',
             'circle',
@@ -18,9 +20,9 @@ angular.module('MatchingGame').factory('CardEngine', function() {
     };
 
     function shuffle(o){ //v1.0
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x){}
         return o;
-    };
+    }
 
     function generateDeck(numCards, matchingStyle) {
         //First, validate that the number of cards is even:
@@ -29,10 +31,9 @@ angular.module('MatchingGame').factory('CardEngine', function() {
         }
 
         //Now, determine the max number of items we can get:
-        var myOptions = shuffle(angular.copy(options[matchingStyle])),
+        var myOptions = shuffle(window.angular.copy(options[matchingStyle])),
             otherOptionName = matchingStyle === 'shape' ? 'color' : 'shape',
-            otherOption = shuffle(angular.copy(options[otherOptionName])),
-            usedOptions = {},
+            otherOption = shuffle(window.angular.copy(options[otherOptionName])),
             cards = [];
 
         if(myOptions.length < numCards / 2) {
@@ -43,7 +44,6 @@ angular.module('MatchingGame').factory('CardEngine', function() {
 
 
         var currentCard,
-            currentOption,
             copyCard;
         for(var i = 0, cardOption; cardOption = myOptions[i]; i++) {
             //Get a random item from the option
@@ -51,7 +51,7 @@ angular.module('MatchingGame').factory('CardEngine', function() {
             currentCard[matchingStyle] = cardOption;
             currentCard[otherOptionName] = otherOption[Math.floor(Math.random() * otherOption.length)];
             cards.push(currentCard);
-            copyCard = angular.copy(currentCard);
+            copyCard = window.angular.copy(currentCard);
             copyCard[otherOptionName] = otherOption[Math.floor(Math.random() * otherOption.length)];
             cards.push(copyCard);
         }

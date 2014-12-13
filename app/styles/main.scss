@@ -212,6 +212,20 @@ hr{
     color: black;
 }
 
+.modal h1 {
+    font-size: 17px;
+}
+
+.modal p, .modal h2 {
+    font-size: 15px;
+}
+
+.modal li {
+    list-style: none;
+}
+
+
+
 .game-over .modal-bg {
     -webkit-transition: all ease-in 0.2s;
     opacity: 0;

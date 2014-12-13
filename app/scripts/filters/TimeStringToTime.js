@@ -1,4 +1,5 @@
 angular.module('MatchingGame').filter('timeFormat', function() {
+    'use strict';
 
     return function(input) {
         var date = new Date(input),
@@ -7,5 +8,5 @@ angular.module('MatchingGame').filter('timeFormat', function() {
 
         hour = hour > 12 ? hour - 12 : hour;
         return date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear() + ' ' + hour + ':' + date.getMinutes() + amPM;
-    }
+    };
 });

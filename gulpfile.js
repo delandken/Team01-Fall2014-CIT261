@@ -21,15 +21,17 @@ gulp.task('scripts', function () {
     return gulp.src('app/scripts/**/*.js')
         .pipe($.jshint())
         .pipe($.jshint.reporter(require('jshint-stylish')))
-        .pipe($.size());
+        .pipe($.ngAnnotate())
+        .pipe($.size())
+        .pipe(gulp.dest('.tmp/scripts/'));
 });
 
-gulp.task('html', ['styles', 'scripts'], function () {
+gulp.task('html', ['templates', 'styles', 'scripts'], function () {
     var jsFilter = $.filter('**/*.js');
     var cssFilter = $.filter('**/*.css');
 
     return gulp.src('app/*.html')
-        .pipe($.useref.assets({searchPath: '{.tmp,app}'}))
+        .pipe($.useref.assets({searchPath: ['.tmp', 'app']}))
         .pipe(jsFilter)
         .pipe($.uglify())
         .pipe(jsFilter.restore())
@@ -44,11 +46,11 @@ gulp.task('html', ['styles', 'scripts'], function () {
 
 gulp.task('images', function () {
     return gulp.src('app/images/**/*')
-        .pipe($.cache($.imagemin({
+        .pipe($.imagemin({
             optimizationLevel: 3,
             progressive: true,
             interlaced: true
-        })))
+        }))
         .pipe(gulp.dest('dist/images'))
         .pipe($.size());
 });
@@ -66,11 +68,21 @@ gulp.task('extras', function () {
         .pipe(gulp.dest('dist'));
 });
 
+gulp.task('templates', function() {
+
+    gulp.src('app/views/*.html')
+        .pipe($.angularTemplatecache('templates.js', {
+            module: 'MatchingGame',
+            root: 'views/'
+        }))
+        .pipe(gulp.dest('.tmp/scripts'));
+});
+
 gulp.task('clean', function () {
     return gulp.src(['.tmp', 'dist'], { read: false }).pipe($.clean());
 });
 
-gulp.task('build', ['html', 'images', 'fonts', 'extras']);
+gulp.task('build', ['html', 'images']);
 
 gulp.task('default', ['clean'], function () {
     gulp.start('build');
@@ -113,7 +125,7 @@ gulp.task('wiredep', function () {
         .pipe(gulp.dest('app'));
 });
 
-gulp.task('watch', ['connect', 'serve'], function () {
+gulp.task('watch', ['clean', 'connect', 'serve'], function () {
     var server = $.livereload();
 
     // watch for changes

@@ -1,98 +1,130 @@
-angular.module('MatchingGame').factory('StorageService', function($q){
+angular.module('MatchingGame').factory('StorageService', function($q, $filter){
+  'use strict';
     var storageService = {};
 
-    window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-    window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-    window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+    if (window.indexedDB) {
+      window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+      window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+      window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
-    var DBOpenRequest = window.indexedDB.open("MatchingGame", 3);
-    var openDefer = $q.defer();
-    var openPromise = openDefer.promise;
+      var DBOpenRequest = window.indexedDB.open('MatchingGame', 3);
+      var openDefer = $q.defer();
+      var openPromise = openDefer.promise;
 
-    var db;
+      DBOpenRequest.onerror = function(err) {
+          console.log('Failed.');
+          openDefer.reject(err);
+      };
+      DBOpenRequest.onsuccess = function() {
+          openDefer.resolve(DBOpenRequest.result);
+      };
+      DBOpenRequest.onupgradeneeded = function(e) {
+          var thisDB = e.target.result;
 
-    DBOpenRequest.onerror = function(err) {
-        console.log('Failed.');
-        openDefer.reject(err);
-    }
-    DBOpenRequest.onsuccess = function(ev) {
-      var db = DBOpenRequest.result;
+        if(thisDB.objectStoreNames.contains('score')) {
+          thisDB.deleteObjectStore('score');
+        }
 
-        openDefer.resolve(DBOpenRequest.result);
-    }
-    DBOpenRequest.onupgradeneeded = function(e) {
-      console.log('Upgrade Needed');
-        var thisDB = e.target.result;
+        var scoreStore = thisDB.createObjectStore('score', {autoIncrement: true});
+        scoreStore.createIndex('time', 'time',  { unique: false });
+        scoreStore.createIndex('value', 'value', { unique: false });
 
-      if(thisDB.objectStoreNames.contains("score")) {
-        thisDB.deleteObjectStore("score");
-      }
+      };
 
-      var scoreStore = thisDB.createObjectStore("score", {autoIncrement: true});
-      scoreStore.createIndex('time', 'time',  { unique: false });
-      scoreStore.createIndex('value', 'value', { unique: false });
+      storageService.add = function(key, value) {
+        var defer = $q.defer();
 
-    }
+        openPromise.then(function(db) {
+          var transaction = db.transaction([key], 'readwrite');
 
-    storageService.add = function(key, value) {
-      var defer = $q.defer();
+          var store = transaction.objectStore(key);
+          var request = store.add(value);
 
-      openPromise.then(function(db) {
-        var transaction = db.transaction([key], 'readwrite');
+          request.onsuccess = function() {
+            defer.resolve();
+          };
 
-        var store = transaction.objectStore(key);
-        var request = store.add(value);
+          request.onerror = function() {
+            defer.reject();
+          };
+        });
 
-        request.onsuccess = function(e) {
+        return defer.promise;
+      };
+
+      storageService.getAll = function(key) {
+        var defer = $q.defer();
+
+        openPromise.then(function(db) {
+          var results = [];
+          db.transaction([key], 'readonly').objectStore(key).openCursor().onsuccess = function(e) {
+            var cursor = e.target.result;
+            if(cursor) {
+              results.push(cursor.value);
+              cursor.continue();
+            } else {
+              defer.resolve(results);
+            }
+          };
+        });
+
+        return defer.promise;
+      };
+
+      storageService.getAllSorted = function(key, index, direction, limit) {
+        var defer = $q.defer();
+
+        direction = direction || 'next';
+
+        openPromise.then(function(db) {
+          var results = [];
+          db.transaction([key], 'readonly').objectStore(key).index(index).openCursor(null, direction).onsuccess = function(e) {
+            var cursor = e.target.result;
+            if(cursor && !(limit && limit - 1 < results.length)) {
+              results.push(cursor.value);
+              cursor.continue();
+            } else {
+              defer.resolve(results);
+            }
+          };
+        });
+
+        return defer.promise;
+      };
+    } else {
+      var orderBy = $filter('orderBy');
+
+      storageService.add = function(key, value) {
+        var defer = $q.defer();
+        storageService.getAll(key).then(function(items){
+          items = items || [];
+          items.push(value);
+          console.log(items);
+          window.localStorage.setItem(key, JSON.stringify(items));
           defer.resolve();
-        }
+        });
+        
 
-        request.onerror = function(e) {
-          defer.reject();
-        }
-      });
+        return defer.promise;
+      };
+      storageService.getAll = function(key) {
+        var defer = $q.defer();
 
-      return defer.promise;
-    }
+        defer.resolve(JSON.parse(window.localStorage.getItem(key)));
 
-    storageService.getAll = function(key) {
-      var defer = $q.defer();
+        return defer.promise;
+      };
+      storageService.getAllSorted = function(key, index, direction, limit) {
+        var defer = $q.defer();
 
-      openPromise.then(function(db) {
-        var results = [];
-        db.transaction([key], 'readonly').objectStore(key).openCursor().onsuccess = function(e) {
-          var cursor = e.target.result;
-          if(cursor) {
-            results.push(cursor.value);
-            cursor.continue();
-          } else {
-            defer.resolve(results);
-          }
-        }
-      });
+        var predicate = direction === 'prev' ? '+' : '-';
+        storageService.getAll(key).then(function(items) {
+          var sorted = orderBy(items, predicate + index, false);
+          defer.resolve(sorted.slice(0, limit));
+        });
 
-      return defer.promise;
-    }
-
-    storageService.getAllSorted = function(key, index, direction, limit) {
-      var defer = $q.defer();
-
-      direction = direction || 'next';
-
-      openPromise.then(function(db) {
-        var results = [];
-        db.transaction([key], 'readonly').objectStore(key).index(index).openCursor(null, direction).onsuccess = function(e) {
-          var cursor = e.target.result;
-          if(cursor && !(limit && limit - 1 < results.length)) {
-            results.push(cursor.value);
-            cursor.continue();
-          } else {
-            defer.resolve(results);
-          }
-        };
-      });
-
-      return defer.promise;
+        return defer.promise;
+      };
     }
 
 

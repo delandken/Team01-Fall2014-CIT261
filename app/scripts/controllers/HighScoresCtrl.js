@@ -1,5 +1,5 @@
 angular.module('MatchingGame').controller('HighScoreCtrl', function($scope, HighScoreService) {
-
+    'use strict';
 	$scope.highscore = {};
 	
 		//Add the high score to the list:

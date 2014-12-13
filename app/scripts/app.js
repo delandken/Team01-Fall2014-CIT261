@@ -1,4 +1,7 @@
-angular.module('MatchingGame', ['ngRoute', 'ngResource', 'ngAnimate']).config(function($routeProvider, $httpProvider){
+angular.module('MatchingGame', ['ngRoute', 'ngResource', 'ngAnimate']);
+angular.module('MatchingGame').config(function($routeProvider, $httpProvider){
+	'use strict';
+
 	$routeProvider.when('/main', {
 		templateUrl: 'views/main.html',
 		controller: 'MainCtrl'
@@ -23,13 +26,16 @@ angular.module('MatchingGame', ['ngRoute', 'ngResource', 'ngAnimate']).config(fu
 
 	$httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
-}).run(function($rootScope, $location, $timeout) {
+});
+angular.module('MatchingGame').run(function($rootScope, $location) {
+	'use strict';
+	
 	var curLocation;
 	$rootScope.$on('$locationChangeSuccess', function() {
 		curLocation = $location.path();
 	});
 
-	$rootScope.$watch(function(){return $location.path()}, function(newPath, oldPath) {
+	$rootScope.$watch(function(){return $location.path();}, function(newPath) {
 		if(newPath === curLocation) {
 			$rootScope.animateClass='back-animate';
 		} else {

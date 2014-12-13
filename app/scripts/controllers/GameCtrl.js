@@ -1,10 +1,10 @@
+/*jshint -W084 */
 angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout, $interval, $window, CardEngine, HighScoreService) {
-	var activeCard,
-	matchingMode;
+	'use strict';
+
+	var activeCard;
 
 	$scope.game = {};
-
-	initGame();
 
 
 	function gameOver() {
@@ -74,7 +74,7 @@ angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout,
 
 	$scope.goBack = function() {
 		$window.history.back();
-	}
+	};
 
 	function initLevel() {
 		$scope.game.matchMode = Math.random() < 0.5 ? 'shape' : 'color';
@@ -83,14 +83,17 @@ angular.module('MatchingGame').controller('GameCtrl', function($scope, $timeout,
 	}
 
 	function allMatched() {
-		var allMatched = true;
+		var matched = true;
 		for (var i = 0, card; card = $scope.game.cards[i]; i++) {
-			allMatched = allMatched && card.match;
+			matched = matched && card.match;
 		}
 
-		if (allMatched && !$scope.gameOver) {
+		if (matched && !$scope.gameOver) {
 			initLevel();
 		}
-		return allMatched;	
+		return matched;	
 	}
+
+
+	initGame();
 });
