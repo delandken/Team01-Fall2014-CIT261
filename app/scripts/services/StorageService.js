@@ -3,9 +3,9 @@ angular.module('MatchingGame').factory('StorageService', function($q, $filter){
     var storageService = {};
 
     if (window.indexedDB) {
-      window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-      window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
-      window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+      var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+      var IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+      var IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
       var DBOpenRequest = window.indexedDB.open('MatchingGame', 3);
       var openDefer = $q.defer();
